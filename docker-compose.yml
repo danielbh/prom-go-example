@@ -1,0 +1,19 @@
+version: '3.2'
+services:
+  prometheus:
+    image: prom/prometheus:latest
+    container_name: prom
+    ports:
+    - 9090:9090
+    command:
+    - --config.file=/etc/prometheus/prometheus.yml
+    volumes:
+    - ./prometheus.yml:/etc/prometheus/prometheus.yml:ro
+    depends_on:
+    - goapp
+  goapp:
+    image: prom-go-example:local
+    container_name: prom-go-example
+    command: ./main
+    ports:
+    - 2112:2112
