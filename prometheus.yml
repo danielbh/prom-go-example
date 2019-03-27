@@ -3,4 +3,4 @@ scrape_configs:
   scrape_interval: 10s
   static_configs:
   - targets:
-    - prom-go-example:2112
+    - goapp:8080

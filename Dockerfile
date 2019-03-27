@@ -1,14 +1,13 @@
-FROM golang as builder
+FROM golang:latest as builder
+RUN mkdir /app
 RUN mkdir /build
-ADD ./main.go /build/
-WORKDIR /build
-RUN go mod download
-
-RUN CGO_ENABLED=0 GOOS=linux go build -a -installsuffix cgo -ldflags '-extldflags "-static"' -o main .
-
-FROM scratch
-EXPOSE 2112
-COPY --from=builder /build /app/
+COPY go.mod go.sum main.go /app/
 WORKDIR /app
-CMD ["./main"]
+RUN CGO_ENABLED=0 GOOS=linux go build -a -installsuffix cgo -ldflags '-extldflags "-static"' -o /build/main .
+
+FROM golang:latest
+COPY --from=builder /build/ /app/
+EXPOSE 8080
+USER        nobody
+ENTRYPOINT  [ "/app/main" ]
 

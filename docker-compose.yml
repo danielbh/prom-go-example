@@ -9,11 +9,8 @@ services:
     - --config.file=/etc/prometheus/prometheus.yml
     volumes:
     - ./prometheus.yml:/etc/prometheus/prometheus.yml:ro
-    depends_on:
-    - goapp
   goapp:
     image: prom-go-example:local
-    container_name: prom-go-example
-    command: ./main
+    container_name: goapp
     ports:
-    - 2112:2112
+    - 8080:8080

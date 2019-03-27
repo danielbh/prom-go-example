@@ -34,6 +34,6 @@ func main() {
 	recordMetrics()
 	http.HandleFunc("/health", healthHandler)
 	http.Handle("/metrics", promhttp.Handler())
-	http.ListenAndServe("localhost:2112", nil)
 	fmt.Println("Go server running")
+	http.ListenAndServe(":8080", nil)
 }
